@@ -1,6 +1,6 @@
 var express = require('express');
 var glob = require('glob');
-
+var Bluebird = require('bluebird');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -8,7 +8,12 @@ var bodyParser = require('body-parser');
 var compress = require('compression');
 var methodOverride = require('method-override');
 
+var api = require('instagram-node').instagram();
+
+Bluebird.promisifyAll(api);
+
 module.exports = function(app, config) {
+
   var env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
   app.locals.ENV_DEVELOPMENT = env == 'development';
