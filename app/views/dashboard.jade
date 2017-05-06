@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  .row
+    p.text-center Authorization Token: #{token}
+  .row
+    .col-sm-4
+      .thumbnail.text-center
+        img(src="#{profile_image_url}")
+        .caption
+          h3= user_name
+          p= profile_description
+          a(href="#{website}") #{website}
+          h4 Followers: #{follower_count}
+          h4 Following: #{following_count}
+          a.btn.btn-block.btn-primary(href="#", disabled) follow 50
+          a.btn.btn-block.btn-danger(href="#", disabled) unfollow 50
+    .col-sm-8
+      .panel.panel-default
+        .panel-body
+          h5 User Targeting
+          hr
+          .input-group
+            input.form-control#username(placeholder="@Username")
+            br
+            br
+            br
+            a.btn.btn-success#subscribe(type="submit") Subscribe to User
+      .panel.panel-default
+        .panel-body.results
+  .row
+    .col-sm-6.col-md-4
+      h2 Recent Images
+      img(src="#{image_url}", width="300")

@@ -9,7 +9,7 @@ var config = {
       name: 'instaplan'
     },
     port: process.env.PORT || 3000,
-    db: 'mongodb://localhost/instaplan-development'
+    db: 'mongodb://admin2:admin@ds133211.mlab.com:33211/nomadcouples'
   },
 
   test: {
@@ -18,7 +18,7 @@ var config = {
       name: 'instaplan'
     },
     port: process.env.PORT || 3000,
-    db: 'mongodb://localhost/instaplan-test'
+    db: 'mongodb://admin2:admin@ds133211.mlab.com:33211/nomadcouples'
   },
 
   production: {
@@ -27,7 +27,7 @@ var config = {
       name: 'instaplan'
     },
     port: process.env.PORT || 3000,
-    db: 'mongodb://localhost/instaplan-production'
+    db: 'mongodb://admin2:admin@ds133211.mlab.com:33211/nomadcouples'
   }
 };
 

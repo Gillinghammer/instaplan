@@ -9,34 +9,48 @@ var express = require('express'),
 
 mongoose.connect(config.db);
 var db = mongoose.connection;
+console.log('db info: ', db);
 db.on('error', function () {
   throw new Error('unable to connect to database at ' + config.db);
 });
-
-var models = glob.sync(config.root + '/app/models/*.js');
-models.forEach(function (model) {
-  require(model);
-});
+var User = require('./app/models/user');
 
 var app = express();
 
 api.use({
-  client_id: 'f354d0ea817643559a11a06a7c905264',
-  client_secret: 'cee7bf9981bc438d8b0a8dc168a1cbae'
+  client_id: '525b8ba13e104566b27a01518e8e20de',
+  client_secret: 'a139bb38101143319abe579ce2af5844'
 });
 
 var redirect_uri = 'http://localhost:3000/handleauth';
 
 exports.authorize_user = function(req, res) {
-  res.redirect( api.get_authorization_url( redirect_uri, { scope: ['likes','basic','relationships', 'public_content'] } ) );
+  res.redirect( api.get_authorization_url( redirect_uri, { scope: ['likes','basic','relationships', 'public_content','follower_list'] } ) );
 };
 
 exports.handleauth = function(req, res) {
 
   api.authorize_userAsync(req.query.code, redirect_uri)
    .then(function (result) {
-     res.cookie('instaToken',result.access_token, { maxAge: 900000, httpOnly: true });
-     res.cookie('userId',result.user.id, { maxAge: 900000, httpOnly: true });
+    res.cookie('instaToken',result.access_token, { maxAge: 900000, httpOnly: true });
+    res.cookie('userId',result.user.id, { maxAge: 900000, httpOnly: true });
+    User.count({iUserId: result.user.id}, function (err, count){ 
+        if(count === 0){
+          // create a new user
+          var newUser = User({
+            iName: result.user.username,
+            iDisplayName: result.user.full_name,
+            iUserId: result.user.id,
+            admin: false
+          });
+
+          // save the user
+          newUser.save(function(err) {
+            if (err) throw err;
+            console.log('User created!');
+          });
+        }
+    }); 
      res.redirect('/dashboard');
    })
    .catch(function (errors) {
