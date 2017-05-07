@@ -19,15 +19,6 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/dashboard', function (req, res, next) {
-
-  // setting user variables
-  var imageUrl = "",
-      token = ""
-      followerCount = 0,
-      followingCount = 0,
-      userName = '',
-      profileImageUrl = '',
-      profileDescription = '';
   
   // get user details
   var getUser = function() {
@@ -36,7 +27,6 @@ router.get('/dashboard', function (req, res, next) {
       return instaApi.userAsync(req.cookies.userId)
       .then(function (result, remaining, limit) {
         console.log(result)
-
         var updateData = {
           meta: {
             iFollows: result.counts.follows,
@@ -49,12 +39,11 @@ router.get('/dashboard', function (req, res, next) {
           }
         }
 
-        User.findOneAndUpdate({'iUserId':req.cookies.userId}, updateData , {upsert:false}, function(err, doc){
+        User.findOneAndUpdate({'iUserId':req.cookies.userId}, updateData , {upsert:false}, function(err, user){
             if (err) return res.send(500, { error: err });
-            return res.send("succesfully saved");
+            resolve(user)
         });
 
-        resolve(result)
       })
       .catch(function (errors) {
         console.log(errors);
@@ -62,54 +51,24 @@ router.get('/dashboard', function (req, res, next) {
     })
   }
 
-  // get recent images
-  var getRecentMedia = function(result) {
-    return new Promise(function(resolve,reject) {
-      return instaApi.user_self_media_recentAsync()
-      .spread(function(medias,pagination,remaining,limit){
-        console.log("your export", medias)
-        imageUrl = medias.images.standard_resolution.url
-        // return instaApi.mediaAsync(medias[Math.floor(Math.random() * medias.length -1) + 1].id);
-        return "foobar"
-      })
-      .then(function(image){
-        resolve(result)
-      })
-    })
-  }
-
   // render page
-  var renderPage = function(result) {
-    res.render('dashboard', {
-      token: token,
-      image_url: imageUrl,
-      follower_count: followerCount,
-      following_count: followingCount,
-      user_name: userName,
-      profile_image_url: profileImageUrl,
-      profile_description: profileDescription,
-      website: website
-    });
+  var renderPage = function(user) {
+    res.render('dashboard', { user: user });
   }
   
   if (req.cookies.instaToken) {
       instaApi.use({ access_token: req.cookies.instaToken });
       
       getUser()
-      .then(function(result) {
-        return getRecentMedia(result)
-      })
-      .then(function(result) {
-        return renderPage(result)
+      .then(function(user) {
+        return renderPage(user)
       })
       .catch(function(errors){
         console.log(erros);
       });
       
     } else {
-      res.render('index', {
-        showLogin: true
-      });
+      res.render('index');
     }
 
 });

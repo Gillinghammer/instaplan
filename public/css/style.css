@@ -2,6 +2,20 @@ body {
   padding-top: 20px;
   padding-bottom: 40px;
 }
+#background {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  background: url(polina.jpg) no-repeat;
+  background-size: cover;
+}
 /* Custom container */
 .container-narrow {
   margin: 0 auto;
@@ -14,6 +28,7 @@ body {
 .jumbotron {
   margin: 60px 0;
   text-align: center;
+  background-color: rgba(0, 0, 0, 0) !important;
 }
 .jumbotron h1 {
   font-size: 72px;
