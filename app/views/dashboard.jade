@@ -2,4 +2,26 @@ extends layout
 
 block content
   .row
-    include ./templates/card.jade
+    p= user
+  .row
+    h2.header Featured Couples
+    .col.s12.m8
+      .card.horizontal
+        .card-image
+          img(src='#{user.meta.iPicture}')
+        .card-stacked
+          .card-content
+            span.card-title.activator.grey-text.text-darken-4
+              | #{user.iName}
+            .chip
+              | #{ user.iDisplayName }
+            .chip
+              | #{ user.meta.homeBase }
+            .chip
+              | #{ user.meta.currentLocation }
+            p= user.meta.iBio
+            br
+            p following: #{user.meta.iFollows} | followers: #{user.meta.iFollowedBy}
+          .card-action
+            a(href='#{user.meta.website}', target="_blank") Website
+            a(href='https://www.instagram.com/#{user.iName}', target="_blank") Instagram
