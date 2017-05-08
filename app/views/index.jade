@@ -3,5 +3,9 @@ extends layout
 block content
   video#background(autoplay='', loop='', muted='', poster='screenshot.jpg')
     source(src='/bgmovie.mp4', type='video/mp4')
-  .jumbotron
-    a.btn.btn-large.btn-danger(href='/authorize_user') Login with Instagram
+  .row.center
+    .col.s12
+      .jumbotron
+        a.waves-effect.waves-light.waves-purple.deep-purple.accent-4.btn-large.z-depth-5(href='/authorize_user')
+          i.material-icons.right stars
+          | Login with Instagram
