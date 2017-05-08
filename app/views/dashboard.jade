@@ -1,12 +1,32 @@
 extends layout
 
 block content
+  // Dropdown Structure
+  ul#dropdown1.dropdown-content
+    li
+      a(href='#!') Europe
+    li
+      a(href='#!') Asia
+    li
+      a(href='#!') N. America
+    li
+      a(href='#!') S. America
+    li
+      a(href='#!') Australia
+    li.divider
+    li
+      a(href='#!') World Wide
+  nav.transparent.z-depth-0
+    .nav-wrapper
+      a.brand-logo(href='#') Filter Couples
+      ul#nav-mobile.right.hide-on-med-and-down
+        li
+          a.dropdown-button(href='#!', data-activates='dropdown1')
+            | Find By Location
+            i.material-icons.right arrow_drop_down
   .row
-    p= user
-  .row
-    h2.header Featured Couples
     .col.s12.m8
-      .card.horizontal
+      .card.horizontal.transparent
         .card-image
           img(src='#{user.meta.iPicture}')
         .card-stacked
