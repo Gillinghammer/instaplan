@@ -2,12 +2,4 @@ extends layout
 
 block content
   .row
-    .col-sm-12
-      .thumbnail.text-center
-        img(src="#{user.meta.iPicture}")
-        .caption
-          h3= user.iName
-          p= user.meta.iBio
-          a(href="#{user.meta.website}") #{website}
-          h4 Followers: #{user.meta.iFollows}
-          h4 Following: #{user.meta.iFollowedBy}
+    include ./templates/card.jade

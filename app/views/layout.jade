@@ -6,6 +6,7 @@ html(lang='en')
     title= title
     block css
       link(rel='stylesheet', href='/css/style.css')
+      link(rel='stylesheet', href='/css/card.css')
       link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.css')
       link(href='http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css', rel='stylesheet')
       link(href='https://fonts.googleapis.com/css?family=Arima+Madurai:100,200,300,400,500,700,800,900', rel='stylesheet')
@@ -17,5 +18,5 @@ html(lang='en')
         script(src='/components/bootstrap/dist/js/bootstrap.js')
         script(src='/js/scripts.js')
   body
-    .container-narrow
+    .container
       block content
