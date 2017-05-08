@@ -35,21 +35,21 @@ exports.handleauth = function(req, res) {
     res.cookie('instaToken',result.access_token, { maxAge: 900000, httpOnly: true });
     res.cookie('userId',result.user.id, { maxAge: 900000, httpOnly: true });
     User.count({iUserId: result.user.id}, function (err, count){ 
-        if(count === 0){
-          // create a new user
-          var newUser = User({
-            iName: result.user.username,
-            iDisplayName: result.user.full_name,
-            iUserId: result.user.id,
-            admin: false
-          });
+      if(count === 0){
+        // create a new user
+        var newUser = User({
+          iName: result.user.username,
+          iDisplayName: result.user.full_name,
+          iUserId: result.user.id,
+          admin: false
+        });
 
-          // save the user
-          newUser.save(function(err) {
-            if (err) throw err;
-            console.log('User created!');
-          });
-        }
+        // save the user
+        newUser.save(function(err) {
+          if (err) throw err;
+          console.log('User created!');
+        });
+      }
     }); 
      res.redirect('/dashboard');
    })
