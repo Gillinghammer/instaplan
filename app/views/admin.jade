@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  .row
+    h4 User Administration
+  .row
+    .col.s12
+      table.striped.responsive-table.centered
+        thead
+          tr
+            th Instagram Name
+            th Created Date
+            th Home Base
+            th Current Location
+            th Follows
+            th Followed By
+            th Admin
+        tbody
+          - for (var i = 0; i < users.length; ++i) {
+            tr
+              td= users[i].iName
+              td= users[i].created_at
+              td= users[i].meta.homeBase
+              td= users[i].meta.currentLocation
+              td= users[i].meta.iFollows
+              td= users[i].meta.iFollowedBy
+              td
+                a.waves-effect.waves-light.red.accent-4.btn(href="/delete/#{ users[i]._id }")
+                  i.material-icons.right delete
+                  | delete
+          - }

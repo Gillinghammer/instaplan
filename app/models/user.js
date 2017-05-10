@@ -4,19 +4,21 @@ var mongoose = require('mongoose'),
 
 // create a schema
 var UserSchema = new Schema({
-  iName: { type: String, required: true},
-  iDisplayName: { type: String, required: true},
-  iUserId: { type: String, required: true, unique: true },
+  userName: { type: String, required: true},
+  fullName: { type: String, required: true},
+  instagramId: { type: String, required: true, unique: true },
+  email: String,
   admin: Boolean,
   meta: {
-    iFollows: Number,
-    iFollowedBy: Number,
-    iMediaCount: Number,
+    follows: Number,
+    followedBy: Number,
+    mediaCount: Number,
     homeBase: String,
     currentLocation: String,
+    nextTrip: String,
     website: String,
-    iPicture: String,
-    iBio: String
+    picture: String,
+    bio: String
   },
   created_at: Date,
   updated_at: Date
@@ -26,14 +28,11 @@ var UserSchema = new Schema({
 UserSchema.pre('save', function(next) {
   // get the current date
   var currentDate = new Date();
-  
   // change the updated_at field to current date
   this.updated_at = currentDate;
-
   // if created_at doesn't exist, add to that field
   if (!this.created_at)
     this.created_at = currentDate;
-
   next();
 });
 

@@ -1,0 +1,47 @@
+extends layout
+
+block content
+  .row
+    .col.s12
+      h4 Connect with other couples around the globe
+      p= user
+  .row
+    form(action="/submit", method="post").col.s12
+      .row
+        input(type='hidden', value="#{ user._id }", name='id')
+        .input-field.col.s12.m6
+          input#email.validate(name='email', type='email', placeholder="email@domain.com", required)
+          label(for='email') Email
+        .input-field.col.s12.m6
+          input#website(value="#{ user.meta.website }", name='website', type='text', placeholder="http://www.website.com/")
+          label(for='email') Website
+      .row
+        .input-field.col.s12
+          input#display_name.validate(value="#{ user.fullName }", name='displayName', placeholder='Nomad Couple', type='text', required)
+          label(for='display_name') Public Name
+      .row
+        .input-field.col.s12
+          input#bio.validate(value="#{ user.meta.bio }", name='bio', placeholder='Nomad Couple', type='text', data-length="240")
+          label(for='display_name') Account Description
+      .row
+        .col.s12.m6#checkboxes
+          input#homebase_question(type='checkbox')
+          label(for='homebase_question') Do you have a home base?
+          br
+          input#current_question(type='checkbox')
+          label(for='current_question') Are you currently on a trip?
+        .input-field.col.s12.m6
+          input#home_base.validate(name='home', placeholder='Portugal', type='text', disabled="disabled")
+          label(for='home_base') Home Base (Country)
+      .row
+        .input-field.col.s12.m6
+          input#current_trip.validate(name='current', placeholder='Fiji', type='text', disabled='disabled')
+          label(for='current_trip') Current Trip (Country)
+        .input-field.col.s12.m6
+          input#next_trip.validate(name='next', placeholder='Iceland', type='text')
+          label(for='next_trip') Next Trip (Country)
+      .row
+        button.btn.waves-effect.waves-light.btn-large.right(type='submit', action="post")
+          | Submit
+          i.material-icons.right done
+  script(src='/js/welcome.js')
