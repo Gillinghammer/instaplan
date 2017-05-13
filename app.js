@@ -37,19 +37,42 @@ api.use({
 });
 
 function requireEmail (req, res, next) {  
-  if(req.user.email === ''){
-    res.render('welcome');
+  if(req.session.user.email === ''){
+    res.redirect('/welcome');
   } else {
     next();
   }
 }
 
 app.use(function(req, res, next) {
-  if (req.session && req.session.instagram) {
-    User.findOne({ instagramId: req.session.instagram.user.id }, function(err, user) {
+  // hack that allows request session to be available in case of redirect
+  if(req.session.user) {
+    res.locals = req.session; // should include values for .user and .access_token
+  }
+  next()
+})
+
+function combinedReach (req, res, next) {
+  if(req.session) {
+    User.aggregate([
+      { "$group":{ 
+        "_id": null, 
+        "reach": { "$sum": "$meta.followedBy"} 
+      }}], function(err, result) {
+      console.log("your aggregation result: ", result[0].reach );
+      res.locals.reach = result[0].reach;
+      next()
+    });
+  }
+};
+
+app.use(function(req, res, next) {
+
+  if (req.session && req.session.user) {
+    User.findOne({ instagramId: req.session.user.id }, function(err, user) {
       if (user) {
         req.user = user;
-        req.session.instagram.user = user;  //refresh the session value
+        req.session.user = user;  //refresh the session value
         res.locals.user = user;
       }
       // finishing processing the middleware and run the route
@@ -61,7 +84,7 @@ app.use(function(req, res, next) {
 });
 
 function requireLogin (req, res, next) {
-  if (!req.user) {
+  if (!req.session.user) {
     res.redirect('/');
   } else {
     next();
@@ -79,38 +102,43 @@ exports.authorize_user = function(req, res) {
 // function to run upon successful authentication
 exports.handleauth = function(req, res) {
   api.authorize_userAsync(req.query.code, redirect_uri)
+  .then(function (result) {
+    req.session.access_token = result.access_token
+    api.use({ access_token: req.session.access_token });
+    return api.userAsync(result.user.id)
+  })
    .then(function (result) {
-    // set session cookie to instagram result
-    req.session.instagram = result;
-    console.log('setting session cookie to: ', result)
-    User.findOne({ instagramId: req.session.instagram.user.id }, function (err, user){ 
+    User.findOne({ instagramId: result.id }, function (err, user){ 
       if( !user ){
         // create a new user
         var newUser = User({
-          userName: req.session.instagram.user.username,
-          fullName: req.session.instagram.user.full_name,
-          instagramId: req.session.instagram.user.id,
+          userName: result.username,
+          fullName: result.full_name,
+          instagramId: result.id,
           email: '',
           admin: false,
           meta: {
-            follows: 0,
-            followedBy: 0,
-            mediaCount: 0,
+            follows: result.counts.follows,
+            followedBy: result.counts.followed_by,
+            mediaCount: result.counts.media,
             homeBase: '',
             currentLocation: '',
             nextTrip: '',
-            website: req.session.instagram.user.website,
-            picture: req.session.instagram.user.profile_picture,
-            bio: req.session.instagram.user.bio
+            website: result.website,
+            picture: result.profile_picture,
+            bio: result.bio
           }
         });
         // save the user
+        req.session.user = newUser;
+        console.log("hold up, req.session comming at ya: ", req.session )
         newUser.save(function(err) {
           if (err) throw err;
           console.log('NEW USER CREATED:' );
           res.redirect('dashboard');
         });
       } else {
+        req.session.user = user;
         res.redirect('dashboard');
       }
     }); 
@@ -159,6 +187,7 @@ exports.home = function(req,res) {
 
 exports.dashboard = function(req,res) {
   res.render('dashboard');
+  
 }
 
 exports.welcome = function(req, res) {
@@ -166,7 +195,7 @@ exports.welcome = function(req, res) {
 }
 
 app.get('/', exports.home );
-app.get('/dashboard', requireLogin, requireEmail, exports.dashboard );
+app.get('/dashboard', requireLogin, requireEmail, combinedReach, exports.dashboard );
 app.get('/welcome', exports.welcome);
 app.get( '/authorize_user', exports.authorize_user );
 app.get( '/handleauth', exports.handleauth );

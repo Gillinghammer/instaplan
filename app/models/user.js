@@ -36,6 +36,10 @@ UserSchema.pre('save', function(next) {
   next();
 });
 
+// this returns the total reach of all accounts
+// db.users.aggregate([{$group:{ _id: null, reach: {$sum: "$meta.followedBy"} }}])
+
+
 // the schema is useless so far
 // we need to create a model using it
 var User = mongoose.model('User', UserSchema);

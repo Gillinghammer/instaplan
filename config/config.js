@@ -9,7 +9,7 @@ var config = {
       name: 'instaplan'
     },
     port: process.env.PORT || 3000,
-    db: 'mongodb://admin2:admin@ds133211.mlab.com:33211/nomadcouples'
+    db: 'mongodb://localhost/nomadcouples'
   },
 
   test: {
