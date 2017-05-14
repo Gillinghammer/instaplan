@@ -156,8 +156,14 @@ exports.dashboard = function(req,res) {
 exports.welcome = function(req, res) {
   res.render('welcome');
 }
+
+exports.brands = function(req,res) {
+  res.render('brands');
+}
+
 app.get( '/authorize_user', exports.authorize_user );
 app.get('/', exports.home );
+app.get('/brands', exports.brands);
 app.get('/dashboard', handlers.requireLogin, handlers.requireEmail, handlers.networkStats, exports.dashboard );
 app.get('/welcome', exports.welcome);
 app.get( '/handleauth', exports.handleauth );

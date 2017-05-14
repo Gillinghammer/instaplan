@@ -20,9 +20,11 @@ block content
     .nav-wrapper
       ul#nav-mobile.right
         li.hide-on-small-and-down
-          a(href="#") Leaderboards
+          a(href="/brands") Brands & Advertisers
         li.hide-on-small-and-down
-          a(href="#") Search for Couples
+          a(href="#") Join a Campaign
+        li.hide-on-small-and-down
+          a(href="#") Leaderboards
         li
           a.dropdown-button(href='#!', data-activates='dropdown1')
             | Find By Location
@@ -31,23 +33,28 @@ block content
           a(href="/logout") Log Out
   .row
     .col.s12
-      .card-panel.transparent.z-depth-0
-        h2.center Network Statistics
+      #statistics.card-panel.transparent.z-depth-0
+        .row
+          .col.s12
+            h2.center Network Statistics
         .row
           .col.s12.m4.center
-            h3= reach
-            p Combined Reach
+            h3.red-text.accent-3= reach
+            hr
+            h5.grey-text Combined Reach
           .col.s12.m4.center
-            h3= registeredAccounts
-            p Number of Couples
+            h3.red-text.accent-3= registeredAccounts
+            hr
+            h5.grey-text Number of Couples
           .col.s12.m4.center
-            h3= mediaCount
-            p Media Count
-  .row
+            h3.red-text.accent-3= mediaCount
+            hr
+            h5.grey-text Media Count
+  .row.hide-on-small-and-down
     .col.s12
       a(href="https://nomadcouples.slack.com/", target="_blank")
-        #slack.card-panel.transparent.z-depth-0
-          h3.center.white-text Join our growing community on Slack!
+        #slack.card-panel.transparent.z-depth-5
+          h3.center.white-text Chat with other Nomad Couples on Slack!
           .row
             .col.s12
               h5.center.white-text sign up here!
@@ -57,14 +64,17 @@ block content
         h2.center Couple Statistics
         .row
           .col.s12.m4.center
-            h3 1st
-            p Biggest Reach
+            h3.green-text.accent-3 1st
+            hr
+            h5.grey-text Biggest Reach
           .col.s12.m4.center
-            h3 3rd
-            p Engaged Followers
+            h3.green-text.accent-3 3rd
+            hr
+            h5.grey-text Engaged Followers
           .col.s12.m4.center
-            h3 15th
-            p Total Posts
+            h3.green-text.accent-3 15th
+            hr
+            h5.grey-text Total Posts
         .row
           .col.s12
             h3.center Badges
@@ -76,7 +86,7 @@ block content
           .col.s4.m2.center
             i.large.material-icons.yellow-text track_changes
           .col.s4.m2.center
-            i.large.material-icons.green-text hd
+            i.large.material-icons.green-text.text-lighten-5 hd
           .col.s4.m2.center
             i.large.material-icons.blue-text.text-lighten-5 room
           .col.s4.m2.center
