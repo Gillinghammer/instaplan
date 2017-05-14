@@ -3,8 +3,11 @@ var express = require('express'),
   glob = require('glob'),
   mongoose = require('mongoose'),
   Bluebird = require('bluebird'),
-  api = require('instagram-node').instagram(),
   session = require('client-sessions');
+
+var api = require('instagram-node').instagram();
+var middlewares = require("./app/middlewares");
+var handlers = require("./app/handlers");
 
 // wrap instagram api in promise library
 Bluebird.promisifyAll(api);
@@ -22,6 +25,7 @@ var User = require('./app/models/user');
 // setup app with express
 var app = express();
 
+
 // initialize session configuration
 app.use(session({
   cookieName: 'session',
@@ -30,72 +34,18 @@ app.use(session({
   activeDuration: 5 * 60 * 1000,
 }));
 
-// instagram credentials, hide these!
-api.use({
-  client_id: '525b8ba13e104566b27a01518e8e20de',
-  client_secret: 'a139bb38101143319abe579ce2af5844'
-});
-
-function requireEmail (req, res, next) {  
-  if(req.session.user.email === ''){
-    res.redirect('/welcome');
-  } else {
-    next();
-  }
-}
-
-app.use(function(req, res, next) {
-  // hack that allows request session to be available in case of redirect
-  if(req.session.user) {
-    res.locals = req.session; // should include values for .user and .access_token
-  }
-  next()
-})
-
-function combinedReach (req, res, next) {
-  if(req.session) {
-    User.aggregate([
-      { "$group":{ 
-        "_id": null, 
-        "reach": { "$sum": "$meta.followedBy"} 
-      }}], function(err, result) {
-      console.log("your aggregation result: ", result[0].reach );
-      res.locals.reach = result[0].reach;
-      next()
-    });
-  }
-};
-
-app.use(function(req, res, next) {
-
-  if (req.session && req.session.user) {
-    User.findOne({ instagramId: req.session.user.id }, function(err, user) {
-      if (user) {
-        req.user = user;
-        req.session.user = user;  //refresh the session value
-        res.locals.user = user;
-      }
-      // finishing processing the middleware and run the route
-      next();
-    });
-  } else {
-    next();
-  }
-});
-
-function requireLogin (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('/');
-  } else {
-    next();
-  }
-};
+app.use(middlewares.setLocals);
+app.use(middlewares.redirectLocals);
 
 // url for instagram to redirect back to upon successful authentication
-var redirect_uri = 'http://localhost:3000/handleauth';
+var redirect_uri = 'http://127.0.0.1:3000/handleauth';
 
 // function to run for instagrams authentication
 exports.authorize_user = function(req, res) {
+  api.use({
+    client_id: '525b8ba13e104566b27a01518e8e20de',
+    client_secret: 'a139bb38101143319abe579ce2af5844'
+  });
   res.redirect( api.get_authorization_url( redirect_uri, { scope: ['likes','basic','relationships', 'public_content','follower_list'] } ) );
 };
 
@@ -131,15 +81,27 @@ exports.handleauth = function(req, res) {
         });
         // save the user
         req.session.user = newUser;
-        console.log("hold up, req.session comming at ya: ", req.session )
         newUser.save(function(err) {
           if (err) throw err;
           console.log('NEW USER CREATED:' );
           res.redirect('dashboard');
         });
       } else {
-        req.session.user = user;
-        res.redirect('dashboard');
+        api.userAsync(user.instagramId).
+        then(function(result){
+          console.log("ah ha! returning user, score: ", result )
+          user.meta.follows = result.counts.follows;
+          user.meta.followedBy = result.counts.followed_by;
+          user.meta.mediaCount = result.counts.media;
+          user.meta.picture = result.profile_picture;
+          user.save(function (err, user) {
+            if (err) return handleError(err);
+            console.log("User Saved ", user )
+          });
+        }).done(function(result){
+          req.session.user = user;
+          res.redirect('dashboard');
+        })  
       }
     }); 
    })
@@ -163,7 +125,6 @@ exports.deleteUser = function(req,res) {
 
 exports.updateUser = function(req,res) {
   console.log('form data: ', req.body)
-
   User.findById(req.body.id, function (err, user) {
     if (err) return handleError(err);
     user.email = req.body.email;
@@ -186,6 +147,7 @@ exports.home = function(req,res) {
 }
 
 exports.dashboard = function(req,res) {
+  console.log("what is in locals just before we render the dashboard: ", res.locals );
   res.render('dashboard');
   
 }
@@ -193,11 +155,10 @@ exports.dashboard = function(req,res) {
 exports.welcome = function(req, res) {
   res.render('welcome');
 }
-
-app.get('/', exports.home );
-app.get('/dashboard', requireLogin, requireEmail, combinedReach, exports.dashboard );
-app.get('/welcome', exports.welcome);
 app.get( '/authorize_user', exports.authorize_user );
+app.get('/', exports.home );
+app.get('/dashboard', handlers.requireLogin, handlers.requireEmail, handlers.networkStats, exports.dashboard );
+app.get('/welcome', exports.welcome);
 app.get( '/handleauth', exports.handleauth );
 app.get( '/admin', exports.admin );
 app.get('/delete/:id', exports.deleteUser );

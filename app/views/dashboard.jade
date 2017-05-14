@@ -18,34 +18,98 @@ block content
       a(href='#!') World Wide
   nav.transparent.z-depth-0
     .nav-wrapper
-      a.brand-logo(href='#') Filter Couples
-      ul#nav-mobile.right.hide-on-med-and-down
+      ul#nav-mobile.right
+        li.hide-on-small-and-down
+          a(href="#") Leaderboards
+        li.hide-on-small-and-down
+          a(href="#") Search for Couples
         li
           a.dropdown-button(href='#!', data-activates='dropdown1')
             | Find By Location
             i.material-icons.right arrow_drop_down
+        li
+          a(href="/logout") Log Out
   .row
     .col.s12
-      p Combined Reach: #{ reach }
+      .card-panel.transparent.z-depth-0
+        h2.center Network Statistics
+        .row
+          .col.s12.m4.center
+            h3= reach
+            p Combined Reach
+          .col.s12.m4.center
+            h3= registeredAccounts
+            p Number of Couples
+          .col.s12.m4.center
+            h3= mediaCount
+            p Media Count
   .row
-    .col.s12.m8
-      .card.horizontal.transparent
-        .card-image
-          img(src='#{user.meta.picture}')
-        .card-stacked
+    .col.s12
+      a(href="https://nomadcouples.slack.com/", target="_blank")
+        #slack.card-panel.transparent.z-depth-0
+          h3.center.white-text Join our growing community on Slack!
+          .row
+            .col.s12
+              h5.center.white-text sign up here!
+  .row
+    .col.s12
+      .card-panel.transparent.z-depth-0
+        h2.center Couple Statistics
+        .row
+          .col.s12.m4.center
+            h3 1st
+            p Biggest Reach
+          .col.s12.m4.center
+            h3 3rd
+            p Engaged Followers
+          .col.s12.m4.center
+            h3 15th
+            p Total Posts
+        .row
+          .col.s12
+            h3.center Badges
+        .row
+          .col.s4.m2.center
+            i.large.material-icons.red-text grade
+          .col.s4.m2.center
+            i.large.material-icons.orange-text snooze
+          .col.s4.m2.center
+            i.large.material-icons.yellow-text track_changes
+          .col.s4.m2.center
+            i.large.material-icons.green-text hd
+          .col.s4.m2.center
+            i.large.material-icons.blue-text.text-lighten-5 room
+          .col.s4.m2.center
+            i.large.material-icons.purple-text.text-lighten-5 loyalty
+
+    hr
+  .row
+      .col.s12
+        .card-panel.transparent.z-depth-0
           .card-content
-            span.card-title.activator.grey-text.text-darken-4
-              | #{user.userName}
+            h3.center.card-title
+              | Our Featured Couple
+          .card-image.center
+            img(src='#{user.meta.picture}')
+          .card-content.center
+            h5.card-title
+              |#{ user.userName }
+            p name: #{ user.fullName }
             .chip
-              | #{ user.fullName }
+              | Home Base: #{ user.meta.homeBase }
             .chip
-              | #{ user.meta.homeBase }
-            .chip
-              | #{ user.meta.currentLocation }
+              | Current Location: #{ user.meta.currentLocation }
             p= user.meta.bio
-            br
             p following: #{user.meta.follows} | followers: #{user.meta.followedBy}
-          .card-action
-            a(href='#{user.meta.website}', target="_blank") Website
-            a(href='https://www.instagram.com/#{user.iName}', target="_blank") Instagram
+            a(href='#{user.meta.website}', target="_blank") Website 
+            span  | 
+            a(href='https://www.instagram.com/#{user.iName}', target="_blank") Instagram 
+            span  | 
             a(href='/welcome') Edit Profile
+  .row
+    .col.s12.m4
+      img(src="http://placehold.it/250x250", width="100%", height="250px")
+    .col.s12.m4
+      img(src="http://placehold.it/250x250", width="100%", height="250px")
+    .col.s12.m4
+      img(src="http://placehold.it/250x250", width="100%", height="250px")
