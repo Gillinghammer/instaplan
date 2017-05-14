@@ -3,6 +3,7 @@ var express = require('express'),
   glob = require('glob'),
   mongoose = require('mongoose'),
   Bluebird = require('bluebird'),
+  numeral = require('numeral'),
   session = require('client-sessions');
 
 var api = require('instagram-node').instagram();
