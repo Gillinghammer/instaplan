@@ -1,36 +1,6 @@
 extends layout
 
 block content
-  // Dropdown Structure
-  ul#dropdown1.dropdown-content
-    li
-      a(href='#!') Europe
-    li
-      a(href='#!') Asia
-    li
-      a(href='#!') N. America
-    li
-      a(href='#!') S. America
-    li
-      a(href='#!') Australia
-    li.divider
-    li
-      a(href='#!') World Wide
-  nav.transparent.z-depth-0
-    .nav-wrapper
-      ul#nav-mobile.right
-        li.hide-on-small-and-down
-          a(href="/brands") Brands & Advertisers
-        li.hide-on-small-and-down
-          a(href="#") Join a Campaign
-        li.hide-on-small-and-down
-          a(href="#") Leaderboards
-        li
-          a.dropdown-button(href='#!', data-activates='dropdown1')
-            | Find By Location
-            i.material-icons.right arrow_drop_down
-        li
-          a(href="/logout") Log Out
   .row
     .col.s12
       #statistics.card-panel.transparent.z-depth-0

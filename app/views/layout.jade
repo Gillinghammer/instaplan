@@ -16,6 +16,10 @@ html(lang='en')
         script(src='/components/jquery/dist/jquery.js')
         script(src='/js/sort.js')
   body
+    if locals.user
+      include templates/nav-loggedin
+    else
+      include templates/nav-loggedout
     .container
       block content
     script(src='/components/materialize/dist/js/materialize.min.js')
