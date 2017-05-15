@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  .row
+    br
+    br
+  .row
+    .col.s12.m2.hide-on-small-and-down
+      //- empty columns
+    .col.s12.m8
+      .card-panel.transparent.z-depth-0
+        .card-content
+          h3.center.card-title
+            | Our Featured Couple
+        .card-image.center
+          img(src='#{user.meta.picture}')
+        .card-content.center
+          h5.card-title
+            |#{ user.userName }
+          p name: #{ user.fullName }
+          .chip
+            | Home Base: #{ user.meta.homeBase }
+          .chip
+            | Current Location: #{ user.meta.currentLocation }
+          p= user.meta.bio
+          p following: #{user.meta.follows} | followers: #{user.meta.followedBy}
+    .col.s12.m2.hide-on-small-and-down
+      //- empty columns
+  .row.deep-purple.accent-3
+    br
+    br
+    .row
+      .col.s12
+        h3.center.white-text Tag @NomadCouples To See Your Photos Here
+    .row.center
+      .col.s12
+        .row
+          .col.s12.m4
+            img(src="http://placehold.it/300x250", width="100%", height="250px")
+          .col.s12.m4
+            img(src="http://placehold.it/300x250", width="100%", height="250px")
+          .col.s12.m4
+            img(src="http://placehold.it/300x250", width="100%", height="250px")
+        .row
+          .col.s12.m4
+            img(src="http://placehold.it/300x250", width="100%", height="250px")
+          .col.s12.m4
+            img(src="http://placehold.it/300x250", width="100%", height="250px")
+          .col.s12.m4
+            img(src="http://placehold.it/300x250", width="100%", height="250px")
+        .row
+          .col.s12.m4
+            img(src="http://placehold.it/300x250", width="100%", height="250px")
+          .col.s12.m4
+            img(src="http://placehold.it/300x250", width="100%", height="250px")
+          .col.s12.m4
+            img(src="http://placehold.it/300x250", width="100%", height="250px")

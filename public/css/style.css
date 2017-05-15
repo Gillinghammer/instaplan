@@ -3,6 +3,14 @@ body {
   padding-bottom: 40px;
   font-family: "Oswald", sans-serif;
 }
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ede7f6;
+  margin: 1em 0;
+  padding: 0;
+}
 #slack {
   background: url('../slack.jpg') no-repeat;
   background-size: 100%;

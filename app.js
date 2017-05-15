@@ -161,8 +161,13 @@ exports.brands = function(req,res) {
   res.render('brands');
 }
 
+exports.explore = function(req,res) {
+  res.render('explore');
+}
+
 app.get( '/authorize_user', exports.authorize_user );
 app.get('/', exports.home );
+app.get('/explore', exports.explore );
 app.get('/brands', exports.brands);
 app.get('/dashboard', handlers.requireLogin, handlers.requireEmail, handlers.networkStats, exports.dashboard );
 app.get('/welcome', exports.welcome);
