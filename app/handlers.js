@@ -1,6 +1,18 @@
 var User = require('./models/user');
 var numeral = require('numeral');
 module.exports = {
+  checkAdmin: function(req,res,next){
+    if(req.session.user){
+      User.findOne({ _id: req.session.user._id }, function (err, user){
+        if(user.admin){ next()
+         } else {
+          res.redirect('/')
+         }
+      })
+    } else {
+      res.redirect('/')
+    }
+  },
   requireEmail: function(req, res, next){
     if(req.session.user.email === ''){
       res.redirect('/welcome');

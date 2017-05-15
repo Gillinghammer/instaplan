@@ -167,7 +167,7 @@ app.get('/brands', exports.brands);
 app.get('/dashboard', handlers.requireLogin, handlers.requireEmail, handlers.networkStats, exports.dashboard );
 app.get('/welcome', exports.welcome);
 app.get( '/handleauth', exports.handleauth );
-app.get( '/admin', exports.admin );
+app.get( '/admin', handlers.checkAdmin, exports.admin );
 app.get('/delete/:id', exports.deleteUser );
 app.post('/update', exports.updateUser );
 app.get('/logout', function(req, res) {
