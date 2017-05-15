@@ -2,94 +2,102 @@ extends layout
 
 block content
   .row
+    //- breathing room from nav
     .col.s12
-      #statistics.card-panel.transparent.z-depth-0
-        .row
-          .col.s12
-            h2.center Network Statistics
-        .row
-          .col.s12.m4.center
-            h3.red-text.accent-3= reach
-            hr
-            h5.grey-text Combined Reach
-          .col.s12.m4.center
-            h3.red-text.accent-3= registeredAccounts
-            hr
-            h5.grey-text Number of Couples
-          .col.s12.m4.center
-            h3.red-text.accent-3= mediaCount
-            hr
-            h5.grey-text Media Count
+      br
+      br
+  .row
+    .col.s12.m2.hide-on-small-and-down
+      //- empty columns
+    .col.s12.m8
+      .row
+        .col.s12.center
+          h5 Account Status
+          h4.red-text Power Couple
+          p
+            span.tooltipped(data-position='right', data-delay='50', data-tooltip='Projected:  June 1, 2017') Level-up @100,000
+          br
+          hr.hide-on-med-and-up
+        .col.s12.m6.grey-text.text-darken-2
+          h5 Followers: #{user.meta.followedBy}
+          h5
+            span.tooltipped(data-position='right', data-delay='50', data-tooltip='% of followers who actively like your posts') Follower Engagement:  24%
+        .col.s12.m6.grey-text.text-darken-2
+          h5 Most Used Hashtags
+          p.indigo-text.text-accent-2 #wanderlust #travelcouple #digitalnomads #coupleocrazykids
+      .row
+        br
+        h5.center Nomad Couples Rank
+        .col.s12.m4.center
+          h4.green-text.accent-3 
+            span.tooltipped(data-position='right', data-delay='50', data-tooltip='with 200,000 followers') 1st
+          hr
+          h5.grey-text.text-darken-2 Biggest Reach
+        .col.s12.m4.center
+          h4.green-text.accent-3 3rd
+          hr
+          h5.grey-text.text-darken-2 Engaged Followers
+        .col.s12.m4.center
+          h4.green-text.accent-3 15th
+          hr
+          h5.grey-text.text-darken-2 Total Posts
+      .row
+        .col.s12
+          h4.center Badges
+          .row
+            .col.s4.m2.center
+              i.large.material-icons.red-text grade
+            .col.s4.m2.center
+              i.large.material-icons.orange-text snooze
+            .col.s4.m2.center
+              i.large.material-icons.yellow-text track_changes
+            .col.s4.m2.center
+              i.large.material-icons.green-text.text-lighten-5 hd
+            .col.s4.m2.center
+              i.large.material-icons.blue-text.text-lighten-5 room
+            .col.s4.m2.center
+              i.large.material-icons.purple-text.text-lighten-5 loyalty
+    .col.s12.m2.hide-on-small-and-down
+  .row
+    .col.s12.m2.hide-on-small-and-down
+      //- empty columns
+    .col.s12.m8
+      .card-panel.transparent.z-depth-0
+        .card-content
+          h3.center.card-title
+            | Our Featured Couple
+        .card-image.center
+          img(src='#{user.meta.picture}')
+        .card-content.center
+          h5.card-title
+            |#{ user.userName }
+          p name: #{ user.fullName }
+          .chip
+            | Home Base: #{ user.meta.homeBase }
+          .chip
+            | Current Location: #{ user.meta.currentLocation }
+          p= user.meta.bio
+          p following: #{user.meta.follows} | followers: #{user.meta.followedBy}
+    .col.s12.m2.hide-on-small-and-down
+      //- empty columns
+  .row
+    //- breathing room from nav
   .row.hide-on-small-and-down
-    .col.s12
+    .col.s12.m2.hide-on-small-and-down
+      //- empty columns
+    .col.s12.m8
       a(href="https://nomadcouples.slack.com/", target="_blank")
         #slack.card-panel.transparent.z-depth-5
           h3.center.white-text Chat with other Nomad Couples on Slack!
           .row
             .col.s12
               h5.center.white-text sign up here!
-  .row
-    .col.s12
-      .card-panel.transparent.z-depth-0
-        h2.center Couple Statistics
-        .row
-          .col.s12.m4.center
-            h3.green-text.accent-3 1st
-            hr
-            h5.grey-text Biggest Reach
-          .col.s12.m4.center
-            h3.green-text.accent-3 3rd
-            hr
-            h5.grey-text Engaged Followers
-          .col.s12.m4.center
-            h3.green-text.accent-3 15th
-            hr
-            h5.grey-text Total Posts
-        .row
-          .col.s12
-            h3.center Badges
-        .row
-          .col.s4.m2.center
-            i.large.material-icons.red-text grade
-          .col.s4.m2.center
-            i.large.material-icons.orange-text snooze
-          .col.s4.m2.center
-            i.large.material-icons.yellow-text track_changes
-          .col.s4.m2.center
-            i.large.material-icons.green-text.text-lighten-5 hd
-          .col.s4.m2.center
-            i.large.material-icons.blue-text.text-lighten-5 room
-          .col.s4.m2.center
-            i.large.material-icons.purple-text.text-lighten-5 loyalty
-
-    hr
-  .row
-      .col.s12
-        .card-panel.transparent.z-depth-0
-          .card-content
-            h3.center.card-title
-              | Our Featured Couple
-          .card-image.center
-            img(src='#{user.meta.picture}')
-          .card-content.center
-            h5.card-title
-              |#{ user.userName }
-            p name: #{ user.fullName }
-            .chip
-              | Home Base: #{ user.meta.homeBase }
-            .chip
-              | Current Location: #{ user.meta.currentLocation }
-            p= user.meta.bio
-            p following: #{user.meta.follows} | followers: #{user.meta.followedBy}
-            a(href='#{user.meta.website}', target="_blank") Website 
-            span  | 
-            a(href='https://www.instagram.com/#{user.iName}', target="_blank") Instagram 
-            span  | 
-            a(href='/welcome') Edit Profile
-  .row
-    .col.s12.m4
-      img(src="http://placehold.it/250x250", width="100%", height="250px")
-    .col.s12.m4
-      img(src="http://placehold.it/250x250", width="100%", height="250px")
-    .col.s12.m4
-      img(src="http://placehold.it/250x250", width="100%", height="250px")
+    .col.s12.m2.hide-on-small-and-down
+      //- empty columns
+  //- .row
+  //-   .col.s12.m4
+  //-     img(src="http://placehold.it/300x250", width="100%", height="250px")
+  //-   .col.s12.m4
+  //-     img(src="http://placehold.it/300x250", width="100%", height="250px")
+  //-   .col.s12.m4
+  //-     img(src="http://placehold.it/300x250", width="100%", height="250px")

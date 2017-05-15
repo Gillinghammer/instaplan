@@ -2,6 +2,31 @@ extends layout
 
 block content
   .row
+    //- breathing room from nav
+  .row
+    .col.s12.m2.hide-on-small-and-down
+      //- empty columns
+    .col.s12.m8
+      #statistics.card-panel.transparent.z-depth-0
+        .row
+          .col.s12
+            h2.center Network Statistics
+        .row
+          .col.s12.m4.center
+            h3.red-text.accent-3= reach
+            hr
+            h5.grey-text Combined Reach
+          .col.s12.m4.center
+            h3.red-text.accent-3= registeredAccounts
+            hr
+            h5.grey-text Number of Couples
+          .col.s12.m4.center
+            h3.red-text.accent-3= mediaCount
+            hr
+            h5.grey-text Media Count
+    .col.s12.m2.hide-on-small-and-down
+      //- empty columns
+  .row
     .col.s12
       h3.center.black-text Brands and Advertiser Portal
       p.center.black-text Leverage the Nomad Couples Influencer Network to Reach Millions of your customers
