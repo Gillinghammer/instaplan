@@ -1,0 +1,27 @@
+.col.s12
+  // Dropdown Structure
+  ul#dropdown1.dropdown-content.white
+    li
+      a(href='/dashboard') Dashboard
+    li.black-text
+      a(href='/welcome') Edit Profile
+    li.divider
+    li
+      a(href='#!') Support
+  nav.deep-purple.accent-4
+    .row
+      .col.s12.m1
+      .col.s12.m10
+        .nav-wrapper
+          ul#nav-mobile.right
+            li.hide-on-small-and-down
+              a(href="/brands") For Brands
+            li.hide-on-small-and-down
+              a(href="#") Find Other Couples
+            li
+              a.dropdown-button(href='#!', data-activates='dropdown1')
+                | Account Settings
+                i.material-icons.right arrow_drop_down
+            li
+              a(href="/logout") Sign Out
+      .col.s12.m1
