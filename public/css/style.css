@@ -27,6 +27,13 @@ nav {
   position: absolute;
   top: 0;
 }
+nav .dropdown-content {
+  top: 65px !important;
+}
+nav .dropdown-content li > a,
+nav .dropdown-content li > span {
+  color: black;
+}
 .jumbotron {
   margin-top: 200px;
   color: white;
